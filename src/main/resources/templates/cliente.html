@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{layout/cabecalho}">
+	<title>Página de Cliente</title>
+</head>
+
+<body>
+	<div th:insert="~{layout/menu}"></div>
+
+	<form name="salvar_cliente" class="form-horizontal" method="post" th:action="@{/salvar_cliente}"
+		th:object="${clienteEntity}">
+		<div class="container">
+			<h2>Cliente</h2>
+
+			<!--Começa cadastro de cliente -->
+			<div class="container">
+				<div class="alert alert-sucess" th:text="${mensagem}" th:if="${not #strings.isEmpty(mensagem)}"></div>
+				<div class="mb-3">
+					<label for="nome" class="form-label">Nome</label>
+					<input type="text" class="form-control" id="nome" name="nome" required>
+				</div>
+				<div class="mb-3">
+					<label for="cep" class="form-label">Cep</label>
+					<input type="text" class="form-control" id="cep" name="cep" required>
+				</div>
+				<div class="mb-3">
+					<label for="rua" class="form-label">Rua</label>
+					<input type="text" class="form-control" id="rua" name="rua" required>
+				</div>
+				<div class="mb-3">
+					<label for="telefone" class="form-label">Telefone</label>
+					<input type="text" class="form-control" id="telefone" name="telefone" required>
+				</div>
+				<div class="mb-3">
+					<label for="bairro" class="form-label">Bairro</label>
+					<input type="text" class="form-control" id="bairro" name="bairro" required>
+				</div>
+				<div class="mb-e">
+					<button type="submit" class="btn btn-success form-control">Salvar</button>
+				</div>
+			</div>
+			<!-- Termina cadastro de cliente -->
+		</div>
+		<!--Começa lista de cliente-->
+		<br>
+		<div class="container">
+			<h5 class="card-title">Clientes cadastrados</h5>
+			<table class="table table-sn table-striped table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Nome</th>
+						<th>Telefone</th>
+						<th>Bairro</th>
+						<th class="col-1"></th>
+						<th class="col-1"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="cliente : ${cliente}">
+						<td th:text="${cliente.IdCliente}"></td>
+						<td th:text="${cliente.Nome + ' ' + cliente.telefone}"></td>
+						<td th:text="${cliente.telefone}"></td>
+						<td th:text="${cliente.bairro}"></td>
+						<td><a class="btn btn-sn btn-warning"
+								th:href="@{alterar_cliente/{idCliente}(idCliente=${cliente.IdCliente})}">Alterar</a>
+						</td>
+						<!--Começa o excluir-->
+						<td>
+							<a class="delete btn btn-sm btn-danger"
+								th:href="@{excluir_cliente/{idCliente}(idCliente=${cliente.IdCliente})}"
+								onclick="if (confirm('Deseja realmente excluir o cliente?')){return true;}else{event.stopPropagation();event.preventDefault();};">
+								Excluir
+							</a>
+						</td>
+						<!--Termina Exclusão-->
+					</tr>
+
+				</tbody>
+
+			</table>
+		</div>
+	</form>
+
+	<div th:insert="~{layout/rodape}"></div>
+
+</body>
+
+</html>
