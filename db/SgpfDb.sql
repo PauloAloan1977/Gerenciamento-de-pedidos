@@ -26,11 +26,11 @@ DROP TABLE IF EXISTS `cliente`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cliente` (
   `idCliente` int NOT NULL AUTO_INCREMENT,
-  `Nome` varchar(255) NOT NULL,
-  `Cep` varchar(45) NOT NULL,
-  `Rua` varchar(255) NOT NULL,
-  `Telefone` varchar(45) NOT NULL,
-  `Bairro` varchar(100) NOT NULL,
+  `nome` varchar(255) NOT NULL,
+  `cep` varchar(45) NOT NULL,
+  `rua` varchar(255) NOT NULL,
+  `telefone` varchar(45) NOT NULL,
+  `bairro` varchar(100) NOT NULL,
   PRIMARY KEY (`idCliente`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -52,14 +52,10 @@ DROP TABLE IF EXISTS `itempedido`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `itempedido` (
-  `IdItemPedido` int NOT NULL AUTO_INCREMENT,
-  `IdProduto` int NOT NULL,
-  `IdPedido` int NOT NULL,
-  PRIMARY KEY (`IdItemPedido`),
-  KEY `IdProdutos_idx` (`IdProduto`),
-  KEY `IdPedido_idx` (`IdPedido`),
-  CONSTRAINT `IdPedido` FOREIGN KEY (`IdPedido`) REFERENCES `pedido` (`IdPedido`),
-  CONSTRAINT `IdProdutos` FOREIGN KEY (`IdProduto`) REFERENCES `produto` (`IdProduto`)
+  `idItemPedido` int NOT NULL AUTO_INCREMENT,
+  `idProduto` int NOT NULL,
+  `idPedido` int NOT NULL,
+  PRIMARY KEY (`idItemPedido`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -80,11 +76,23 @@ DROP TABLE IF EXISTS `pedido`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `pedido` (
-  `IdPedido` int NOT NULL AUTO_INCREMENT,
-  `TotalPedido` varchar(45) NOT NULL,
-  `StatusPedido` varchar(100) NOT NULL,
-  `DataPedido` varchar(45) NOT NULL,
-  PRIMARY KEY (`IdPedido`)
+  `idPedido` int unsigned NOT NULL AUTO_INCREMENT,
+  `totalPedido` varchar(45) NOT NULL,
+  `statusPedido` varchar(100) NOT NULL,
+  `dataPedido` varchar(45) NOT NULL,
+  `cliente_idCliente` int NOT NULL,
+  `restaurante_idRestaurante` int NOT NULL,
+  `produto_idProduto` int NOT NULL,
+  `itemPedido_idItemPedido` int NOT NULL,
+  PRIMARY KEY (`idPedido`),
+  KEY `cliente_idCliente_idx` (`cliente_idCliente`),
+  KEY `fk_pedido_restaurante_idx` (`restaurante_idRestaurante`),
+  KEY `fk_pedido_produto_idx` (`produto_idProduto`),
+  KEY `fk_pedido_itempedido_idx` (`itemPedido_idItemPedido`),
+  CONSTRAINT `fk_pedido_cliente` FOREIGN KEY (`cliente_idCliente`) REFERENCES `cliente` (`idCliente`),
+  CONSTRAINT `fk_pedido_itempedido` FOREIGN KEY (`itemPedido_idItemPedido`) REFERENCES `itempedido` (`idItemPedido`),
+  CONSTRAINT `fk_pedido_produto` FOREIGN KEY (`produto_idProduto`) REFERENCES `produto` (`idProduto`),
+  CONSTRAINT `fk_pedido_restaurante` FOREIGN KEY (`restaurante_idRestaurante`) REFERENCES `restaurante` (`idRestaurante`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -105,10 +113,10 @@ DROP TABLE IF EXISTS `produto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `produto` (
-  `IdProduto` int NOT NULL AUTO_INCREMENT,
-  `Nome` varchar(45) NOT NULL,
-  `Quantidade` varchar(45) NOT NULL,
-  PRIMARY KEY (`IdProduto`)
+  `idProduto` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(45) NOT NULL,
+  `quantidade` varchar(45) NOT NULL,
+  PRIMARY KEY (`idProduto`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -129,13 +137,13 @@ DROP TABLE IF EXISTS `restaurante`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `restaurante` (
-  `IdRestaurante` int NOT NULL,
-  `Bairro` varchar(100) NOT NULL,
-  `Nome` varchar(45) NOT NULL,
-  `Telefone` varchar(45) NOT NULL,
-  `Cep` varchar(45) NOT NULL,
-  `Rua` varchar(45) NOT NULL,
-  PRIMARY KEY (`IdRestaurante`)
+  `idRestaurante` int NOT NULL AUTO_INCREMENT,
+  `bairro` varchar(100) NOT NULL,
+  `nome` varchar(45) NOT NULL,
+  `telefone` int NOT NULL,
+  `cep` int NOT NULL,
+  `rua` varchar(45) NOT NULL,
+  PRIMARY KEY (`idRestaurante`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -157,4 +165,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-16 19:13:45
+-- Dump completed on 2024-04-16 20:59:32
