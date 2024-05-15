@@ -1,31 +1,29 @@
-package br.com.sgpf.entity;
 
-import java.io.Serializable;
+	package br.com.sgpf.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+	import java.io.Serializable;
 
-@Entity
-@Table(name = "produto" , schema = "sgpf")
-public class ProdutoEntity implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_produto")
-	private Long idproduto;
-	
-	@Column(name = "nome")
-	private String nome;
-	
-	@Column(name = "quantidade")
-	private String quantidade;
-	
-	
+	import jakarta.persistence.Column;
+	import jakarta.persistence.Entity;
+	import jakarta.persistence.Id;
+	import jakarta.persistence.Table;
+
+	@Entity
+	@Table(name = "Produto" , schema = "sgpf")
+	public class ProdutoEntity implements Serializable {
+
+		private static final long serialVersionUID = 1l;
+		@Id
+		@Column(name = "nome")
+		private String nome;
+		public String getNome() {
+			return nome;
+		}
+		public void setNome(String nome) {
+			this.nome = nome;
+		}
+
+		
 	}
 
-}
+
